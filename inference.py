@@ -541,6 +541,8 @@ class OcrInferencer:
             #print(width,height)
             tmpcoordlist=[]
             for line_xml in page_xml.iter('LINE'):
+                if "STRING" not in line_xml.attrib:
+                    continue
                 text=line_xml.attrib['STRING']
                 lw=int(line_xml.attrib['WIDTH'])
                 lh=int(line_xml.attrib['HEIGHT'])
