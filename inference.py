@@ -522,16 +522,19 @@ class OcrInferencer:
         xml_data :
             1ページ分の推論結果を持つxmlデータ。
         """
-        main_txt,cap_txt=self._sort_result_txt(xml_data)
-        """main_txt = ''
-        cap_txt = ''
-        for page_xml in xml_data.iter('PAGE'):
-            for line_xml in page_xml.iter('LINE'):
-                main_txt += line_xml.attrib['STRING']
-                main_txt += '\n'
-                if line_xml.attrib['TYPE'] == 'キャプション':
-                    cap_txt += line_xml.attrib['STRING']
-                    cap_txt += '\n'"""
+
+        try:
+            main_txt,cap_txt=self._sort_result_txt(xml_data)
+        except: # ソートがうまくいかない場合あり
+            main_txt = ''
+            cap_txt = ''
+            for page_xml in xml_data.iter('PAGE'):
+                for line_xml in page_xml.iter('LINE'):
+                    main_txt += line_xml.attrib['STRING']
+                    main_txt += '\n'
+                    if line_xml.attrib['TYPE'] == 'キャプション':
+                        cap_txt += line_xml.attrib['STRING']
+                        cap_txt += '\n'
 
         return main_txt, cap_txt
     def _sort_result_txt(self, xml_data):
